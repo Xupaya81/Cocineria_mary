@@ -1,0 +1,7 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cocineria-mary",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-09-01",
+  "services": [{ "binding": "API", "service": "cocineria-mary-api-prod" }],
+}

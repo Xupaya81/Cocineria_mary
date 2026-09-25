@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cocineria-mary-beta",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-09-01",
+  "services": [{ "binding": "API", "service": "cocineria-mary-api-beta" }],
+  "vars": {
+    "BETA_CLOSED": "true",
+    "BETA_ACCESS_TEAM_DOMAIN": "REPLACE.cloudflareaccess.com",
+    "BETA_ACCESS_AUD": "REPLACE_WITH_ACCESS_APPLICATION_AUD"
+  }
+}

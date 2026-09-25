@@ -1,0 +1,65 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cocineria-mary-api",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-01",
+  "vars": {
+    "ENVIRONMENT": "development",
+    "PUBLIC_ORIGIN": "http://localhost:5173",
+    "BUSINESS_ID": "mary",
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "mary",
+      "database_id": "00000000-0000-0000-0000-000000000001",
+      "migrations_dir": "migrations",
+    },
+  ],
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "cocineria-mary-media" }],
+  "triggers": { "crons": ["17 4 * * *"] },
+  "env": {
+    "beta": {
+      "name": "cocineria-mary-api-beta",
+      "workers_dev": false,
+      "preview_urls": false,
+      "vars": {
+        "ENVIRONMENT": "production",
+        "PUBLIC_ORIGIN": "https://cocineria-mary-beta.pages.dev",
+        "BUSINESS_ID": "mary",
+        "TURNSTILE_SITE_KEY": ""
+      },
+      "d1_databases": [{
+        "binding": "DB", "database_name": "mary-beta",
+        "database_id": "00000000-0000-0000-0000-000000000002",
+        "migrations_dir": "migrations"
+      }],
+      "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "cocineria-mary-beta-media" }],
+      "triggers": { "crons": ["17 4 * * *"] },
+      "observability": { "enabled": true, "head_sampling_rate": 1 }
+    },
+    "production": {
+      "name": "cocineria-mary-api-prod",
+      "workers_dev": false,
+      "preview_urls": false,
+      "vars": {
+        "ENVIRONMENT": "production",
+        "PUBLIC_ORIGIN": "https://REPLACE_WITH_YOUR_PROJECT.pages.dev",
+        "BUSINESS_ID": "mary",
+        "TURNSTILE_SITE_KEY": "",
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "mary",
+          "database_id": "00000000-0000-0000-0000-000000000001",
+          "migrations_dir": "migrations",
+        },
+      ],
+      "r2_buckets": [
+        { "binding": "MEDIA", "bucket_name": "cocineria-mary-media" },
+      ],
+      "triggers": { "crons": ["17 4 * * *"] },
+    },
+  },
+}
