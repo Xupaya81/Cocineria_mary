@@ -2,6 +2,8 @@
 
 Fecha: 25 de septiembre de 2026. **Estado: preparada y probada localmente; despliegue remoto bloqueado por configuración de cuenta pendiente.** No es una certificación de producción ni un lanzamiento público.
 
+Actualización posterior: identidad Git configurada por el propietario como Xupaya81 / 181146103+Xupaya81@users.noreply.github.com. Desarrollo y preparación beta subidos correctamente a origin/main en el commit `e96ecf57bd209ae5558c4856303c5394d3839a98`. El bloqueo de Git descrito en la revisión inicial de abajo está resuelto. El despliegue Cloudflare sigue pendiente.
+
 ## URL y versión
 
 - URL de beta operativa: **todavía no existe**.
@@ -109,7 +111,7 @@ Referencias oficiales consultadas: [Workers Free y CPU](https://developers.cloud
 
 ## Checklist de producción, de crítico a opcional
 
-- [ ] Confirmar identidad Git, crear commit revisado y subir main; registrar el hash real.
+- [x] Confirmar identidad Git, crear commit revisado y subir main; registrado e96ecf57bd209ae5558c4856303c5394d3839a98.
 - [ ] Autorizar cuenta Cloudflare y correos de beta; confirmar que no se activa gasto sin autorización.
 - [ ] Crear recursos separados; configurar Access para dominio principal y previews, Turnstile y secrets.
 - [ ] Aplicar migraciones/seed a D1 nueva y crear superadmin remoto con contraseña privada.

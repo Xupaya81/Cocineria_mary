@@ -1,5 +1,10 @@
 # Cambios
 
+## Publicación del código en GitHub — 2026-09-25
+
+- Configurada identidad local de Git facilitada por el propietario. Desarrollo y preparación beta publicados en origin/main, commit e96ecf57bd209ae5558c4856303c5394d3839a98.
+- Respaldos, bases locales, credenciales, dependencias y builds permanecen excluidos. Despliegue en Cloudflare pendiente de autenticación y configuración de acceso.
+
 ## Preparación de beta Cloudflare — 2026-09-25
 
 - Revisados 82 archivos nuevos y 3 modificados; excluidos datos locales, credenciales, dependencias, builds y temporales. Añadidas exclusiones para bases y claves privadas.
