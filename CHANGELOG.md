@@ -1,5 +1,12 @@
 # Cambios
 
+## Corrección de sintaxis de triggers D1 — 2026-09-28
+
+- Reemplazadas ocho sentencias SELECT CASE WHEN ... THEN RAISE ... END por SELECT RAISE ... WHERE en las migraciones 0001, 0002 y 0003. Condiciones, mensajes de error y reglas funcionales conservados.
+- Añadido .gitattributes con *.sql text eol=lf; todos los SQL de migrations usan LF.
+- Aplicadas las tres migraciones con Wrangler a una D1 local nueva en work/d1-parser-fix-20260928-fresh; ninguna pendiente. No se accedió a la base remota.
+- Siete pruebas nuevas de migraciones y reglas de triggers; 59 pruebas totales aprobadas. Lint, typecheck y build correctos.
+
 ## Beta sin R2 — 2026-09-28
 
 - Configurado el ID real de D1 mary-beta; confirmados D1 vacío y Pages existente por consultas de solo lectura.

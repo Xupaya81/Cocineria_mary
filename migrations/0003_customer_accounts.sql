@@ -3,8 +3,10 @@ CREATE TABLE customer_sessions (token_hash TEXT PRIMARY KEY,customer_id TEXT NOT
 ALTER TABLE reservations ADD COLUMN account_id TEXT;
 CREATE INDEX reservations_account ON reservations(business_id,account_id,start_at);
 CREATE TRIGGER customer_email_guard BEFORE INSERT ON customers BEGIN
- SELECT CASE WHEN EXISTS(SELECT 1 FROM users WHERE email=NEW.email) THEN RAISE(ABORT,'account_email_unavailable') END;
+ SELECT RAISE(ABORT,'account_email_unavailable')
+ WHERE EXISTS(SELECT 1 FROM users WHERE email=NEW.email);
 END;
 CREATE TRIGGER user_email_guard BEFORE INSERT ON users BEGIN
- SELECT CASE WHEN EXISTS(SELECT 1 FROM customers WHERE email=NEW.email) THEN RAISE(ABORT,'account_email_unavailable') END;
+ SELECT RAISE(ABORT,'account_email_unavailable')
+ WHERE EXISTS(SELECT 1 FROM customers WHERE email=NEW.email);
 END;

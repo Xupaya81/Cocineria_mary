@@ -1,5 +1,13 @@
 # Reporte de preparación Beta Cloudflare
 
+## Corrección posterior de migraciones — 28/09/2026
+
+Tras el error remoto incomplete input comunicado por el propietario, se reescribieron ocho validaciones de triggers como SELECT RAISE(ABORT,...) WHERE condición, sin cambiar condiciones ni reglas. Afecta reservation_insert_guard, reservation_update_guard y table_update_guard de 0001; la sustitución table_update_guard de 0002; customer_email_guard y user_email_guard de 0003. .gitattributes fuerza LF para *.sql y los tres archivos quedaron normalizados.
+
+Las tres migraciones se aplicaron desde cero mediante Wrangler a D1 LOCAL aislada en work/d1-parser-fix-20260928-fresh; lista posterior sin migraciones pendientes. Se añadieron siete pruebas de regresión: 59 pruebas totales aprobadas en 8 archivos, lint/typecheck/build aprobados. La comprobación adicional de integridad se realiza sobre el SQLite local en modo lectura: algunos PRAGMA de diagnóstico no están autorizados por D1 y la consulta combinada a través de Wrangler devolvió SQLITE_AUTH; esto ocurrió después de que las tres migraciones se aplicaran correctamente, no durante su aplicación.
+
+No se consultó ni modificó D1 remoto en esta corrección. Según el estado remoto aportado por el propietario (solo tablas internas y tres migraciones pendientes), puede reintentarse su aplicación con esta versión, sin borrar tablas ni registros de migraciones. El éxito del parser remoto solo quedará confirmado al ejecutar ese próximo paso autorizado; las pruebas locales no lo sustituyen.
+
 ## Actualización vigente — 28/09/2026
 
 Cloudflare autenticado. Consultas de solo lectura confirman D1 mary-beta con ID 048c965c-09d7-4d70-ae62-a82e3aa3c8f6 y 0 tablas, y Pages cocineria-mary-beta. ID configurado en env.beta. **Lista la configuración para aplicar las tres migraciones; no aplicadas en esta fase. No se ha desplegado.**
