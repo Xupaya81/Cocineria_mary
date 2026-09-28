@@ -6,7 +6,7 @@
   "services": [{ "binding": "API", "service": "cocineria-mary-api-beta" }],
   "vars": {
     "BETA_CLOSED": "true",
-    "BETA_ACCESS_TEAM_DOMAIN": "REPLACE.cloudflareaccess.com",
-    "BETA_ACCESS_AUD": "REPLACE_WITH_ACCESS_APPLICATION_AUD"
+    "BETA_ACCESS_TEAM_DOMAIN": "silent-forest-9378.cloudflareaccess.com",
+    "BETA_ACCESS_AUD": "0f5d70fec64fa56ff0519de6884d73bcc5fe25a4b87e390d9639870f6e3b0805"
   }
 }
