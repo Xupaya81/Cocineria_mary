@@ -1,6 +1,6 @@
 # Beta cerrada en Cloudflare
 
-Estado: preparación local verificada; no hay despliegue remoto. No ejecutar los pasos remotos sin iniciar sesión en la cuenta correcta. Los identificadores de recursos del archivo de configuración son placeholders.
+Actualización 28/09/2026: cuenta autenticada; D1 mary-beta (048c965c-09d7-4d70-ae62-a82e3aa3c8f6) y Pages cocineria-mary-beta confirmados mediante consultas de solo lectura. D1 tiene 0 tablas. No se ha desplegado ni aplicado migraciones en esta fase. R2 queda desactivado en beta por decisión del propietario; no habilitar facturación ni servicios de pago. Permanecen pendientes Access y Turnstile.
 
 ## 1. Requisitos y respaldo
 
@@ -29,14 +29,13 @@ Configurar `git config user.name` y `git config user.email` únicamente con la i
 ```powershell
 npx wrangler login
 npx wrangler whoami
-npx wrangler d1 create mary-beta
-npx wrangler r2 bucket create cocineria-mary-beta-media
-npx wrangler pages project create cocineria-mary-beta --production-branch main
+npx wrangler d1 info mary-beta --config wrangler.worker.jsonc --env beta
+npx wrangler pages project list
 ```
 
-No crear recursos si ya existen con esos nombres sin comprobar a quién pertenecen. No activar una suscripción de pago ni introducir tarjeta sin autorización. Si R2 requiere habilitación de facturación, el propietario debe revisar ese paso. La cuota gratuita no es un tope de gasto en un servicio de pago por uso.
+Los recursos D1 y Pages ya existen: no volver a crearlos. No activar R2, facturación ni suscripciones. Beta tiene r2_buckets vacío y STORAGE_MODE=disabled junto a DEPLOYMENT_STAGE=beta. Conserva ENVIRONMENT=production para mantener cookies seguras, CSRF y Turnstile. Las imágenes del seed son archivos SVG estáticos de frontend/public; no se almacenan imágenes en D1 ni se usan URL Base64. La subida se desactiva en el editor y la API devuelve 409 con explicación. Desarrollo y producción conservan sus bindings R2. Ausencia accidental de MEDIA fuera del modo beta produce un error controlado 503 en funciones de almacenamiento, no activa el modo opcional.
 
-Copiar el ID real de D1 exclusivamente a `env.beta.d1_databases` en `wrangler.worker.jsonc`. Conservar local/production separados. Si Pages asigna otro nombre, actualizar su configuración, PUBLIC_ORIGIN, script de despliegue, Turnstile y Access antes de continuar.
+El ID real de D1 ya está configurado exclusivamente en env.beta.d1_databases de wrangler.worker.jsonc. Local y production siguen separados. Wrangler puede avisar que MEDIA no está heredado en beta: es intencional; no agregar el binding para silenciarlo.
 
 ## 4. Access y Turnstile antes de compartir
 
@@ -96,7 +95,7 @@ node scripts/deploy-beta-pages.mjs
 
 Guardar previamente configuración y código en Git: el script de Pages rechaza un árbol con cambios y los placeholders de Access. Prepara una carpeta temporal con el nombre `wrangler.jsonc` requerido por Pages y adjunta el commit a la publicación. El Worker queda sin workers.dev ni preview URL y se alcanza mediante el binding de Pages. R2 queda privado, sin r2.dev público. No ejecutar deploy:api, que apunta al entorno production anterior.
 
-Registrar URL y commit reales en REPORTE_BETA_CLOUDFLARE.md. No declarar una URL operativa por estar escrita en un archivo.
+Registrar URL y commit reales en REPORTE_BETA_CLOUDFLARE.md. No declarar una URL operativa por estar escrita en un archivo. No habilitar R2 en esta beta: las comprobaciones de almacenamiento deben confirmar subida bloqueada y carga de imágenes estáticas. Las pruebas de subida/lectura R2 real se posponen hasta una futura autorización.
 
 ## 7. Pruebas remotas obligatorias
 

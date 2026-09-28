@@ -1,4 +1,29 @@
 import { HTTPException } from "hono/http-exception";
+import type { Env } from "./env";
+
+export function storageCapability(env: Env) {
+  const disabled =
+    env.DEPLOYMENT_STAGE === "beta" && env.STORAGE_MODE === "disabled";
+  return {
+    enabled: !disabled && !!env.MEDIA,
+    message: disabled
+      ? "La subida de imágenes está desactivada en esta beta. Puedes usar las imágenes de demostración incluidas."
+      : !env.MEDIA
+        ? "El almacenamiento no está configurado. Contacta al administrador."
+        : "",
+  };
+}
+export function requireStorage(env: Env): R2Bucket {
+  const capability = storageCapability(env);
+  if (!capability.enabled || !env.MEDIA)
+    throw new HTTPException(
+      env.DEPLOYMENT_STAGE === "beta" && env.STORAGE_MODE === "disabled"
+        ? 409
+        : 503,
+      { message: capability.message },
+    );
+  return env.MEDIA;
+}
 export interface StorageProvider {
   put(key: string, data: ArrayBuffer, mime: string): Promise<void>;
   get(key: string): Promise<R2ObjectBody | null>;

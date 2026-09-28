@@ -25,16 +25,18 @@
       "preview_urls": false,
       "vars": {
         "ENVIRONMENT": "production",
+        "DEPLOYMENT_STAGE": "beta",
+        "STORAGE_MODE": "disabled",
         "PUBLIC_ORIGIN": "https://cocineria-mary-beta.pages.dev",
         "BUSINESS_ID": "mary",
         "TURNSTILE_SITE_KEY": ""
       },
       "d1_databases": [{
         "binding": "DB", "database_name": "mary-beta",
-        "database_id": "00000000-0000-0000-0000-000000000002",
+        "database_id": "048c965c-09d7-4d70-ae62-a82e3aa3c8f6",
         "migrations_dir": "migrations"
       }],
-      "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "cocineria-mary-beta-media" }],
+      "r2_buckets": [],
       "triggers": { "crons": ["17 4 * * *"] },
       "observability": { "enabled": true, "head_sampling_rate": 1 }
     },

@@ -22,7 +22,12 @@ import {
   reportMessage,
   type Metric,
 } from "./reports";
-import { R2StorageProvider, validateImage } from "./storage";
+import {
+  R2StorageProvider,
+  validateImage,
+  requireStorage,
+  storageCapability,
+} from "./storage";
 import { passwordResetRoutes } from "./passwordReset";
 
 export const adminRoutes = new Hono<AppEnv>();
@@ -33,7 +38,7 @@ adminRoutes.use("*", async (c, next) => {
 });
 adminRoutes.route("/users", passwordResetRoutes);
 adminRoutes.get("/content", permit("content"), async (c) =>
-  c.json(await getContent(c.env)),
+  c.json({ ...(await getContent(c.env)), storage: storageCapability(c.env) }),
 );
 adminRoutes.put("/content", permit("content"), async (c) => {
   const { version, content } = z
@@ -208,6 +213,7 @@ adminRoutes.get("/audit", permit("reports"), async (c) =>
   ),
 );
 adminRoutes.post("/media", permit("content"), async (c) => {
+  const bucket = requireStorage(c.env);
   await rateLimit(c, "uploads", 20, 3600);
   const form = await c.req.formData();
   const file = form.get("file");
@@ -215,7 +221,7 @@ adminRoutes.post("/media", permit("content"), async (c) => {
     throw new HTTPException(400, { message: "Selecciona una imagen." });
   const { data, mime, extension } = await validateImage(file);
   const key = `${c.env.BUSINESS_ID}/${crypto.randomUUID()}.${extension}`;
-  await new R2StorageProvider(c.env.MEDIA).put(key, data, mime);
+  await new R2StorageProvider(bucket).put(key, data, mime);
   await audit(c.env, c.get("user"), "media.uploaded", key).run();
   return c.json({ url: `/api/media/${key}` }, 201);
 });

@@ -16,7 +16,7 @@ import {
 import type { AppEnv } from "./env";
 import { getContent } from "./content";
 import { authenticate, digest, rateLimit, verifyBot } from "./security";
-import { R2StorageProvider } from "./storage";
+import { R2StorageProvider, requireStorage } from "./storage";
 
 export const publicRoutes = new Hono<AppEnv>();
 publicRoutes.get("/content", async (c) => {
@@ -43,7 +43,7 @@ publicRoutes.get("/media/:business/:key", async (c) => {
     !/^[-\w]+\.(jpeg|png|webp)$/.test(c.req.param("key"))
   )
     throw new HTTPException(404);
-  const obj = await new R2StorageProvider(c.env.MEDIA).get(
+  const obj = await new R2StorageProvider(requireStorage(c.env)).get(
     `${c.req.param("business")}/${c.req.param("key")}`,
   );
   if (!obj) throw new HTTPException(404, { message: "Imagen no encontrada." });

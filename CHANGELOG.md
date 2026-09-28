@@ -1,5 +1,13 @@
 # Cambios
 
+## Beta sin R2 — 2026-09-28
+
+- Configurado el ID real de D1 mary-beta; confirmados D1 vacío y Pages existente por consultas de solo lectura.
+- R2 eliminado únicamente de los bindings beta; soporte de desarrollo y producción conservado. No se habilita facturación ni servicios.
+- API de contenido administrativo comunica disponibilidad de almacenamiento. Todos los campos de imagen bloquean subidas y muestran una explicación; imágenes estáticas del seed conservadas.
+- Accesos directos a almacenamiento deshabilitado devuelven 409 comprensible, sin errores 500 por MEDIA inexistente; autenticación, roles y CSRF siguen vigentes.
+- 52 pruebas aprobadas, lint/typecheck/build correctos. No se ejecutaron migraciones remotas ni despliegues.
+
 ## Publicación del código en GitHub — 2026-09-25
 
 - Configurada identidad local de Git facilitada por el propietario. Desarrollo y preparación beta publicados en origin/main, commit e96ecf57bd209ae5558c4856303c5394d3839a98.

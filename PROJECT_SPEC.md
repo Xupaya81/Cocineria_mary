@@ -32,6 +32,8 @@ Analytics propio sin identificar personas: visitas, impresiones, clics por desti
 
 ## Secuencia / aceptación
 
+Decisión beta 28/09/2026: no habilitar R2 ni facturación. D1 beta usa 048c965c-09d7-4d70-ae62-a82e3aa3c8f6. Imágenes demostrativas estáticas; subidas desactivadas con explicación en UI y backend. No usar Base64 ni imágenes en D1. Mantener soporte R2 para producción. Solo preparar y subir código: no desplegar ni ejecutar migraciones remotas todavía.
+
 ### Fase beta cerrada solicitada
 
 Preparar una instalación remota separada y privada para Piter/equipo, sin lanzamiento público ni compras. Rate limiting combinado para Wi-Fi compartida; reset manual por superadmin con reautenticación, auditoría y cierre de sesiones. Conservar scrypt y medirlo antes de decidir plan. Bloquear beta con Cloudflare Access validado en Pages; usar dominio temporal y Worker privado mediante service binding. D1 nueva con las tres migraciones y seed ficticio, R2 vacío inicialmente; no importar estado local sin revisión previa. Respaldar/verificar D1 e inventariar R2 antes de crear recursos. Drive, pagos, WhatsApp Business, portal de anunciantes y administración central multi-restaurante quedan fuera. Configuración local preservada.

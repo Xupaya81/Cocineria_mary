@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
+import { StorageContext } from "./StorageContext";
 import { Upload } from "lucide-react";
 import { api } from "../api";
 import { ErrorNotice } from "../components";
@@ -56,6 +57,7 @@ export function ImageField({
   onChange: (s: string) => void;
 }) {
   const [busy, setBusy] = useState(false);
+  const storage = useContext(StorageContext);
   const [error, setError] = useState("");
   const latest = useRef(onChange);
   useEffect(() => {
@@ -70,8 +72,12 @@ export function ImageField({
         <input
           type="file"
           accept="image/jpeg,image/png,image/webp"
-          disabled={busy}
+          disabled={busy || !storage.enabled}
           onChange={async (e) => {
+            if (!storage.enabled) {
+              setError(storage.message);
+              return;
+            }
             const file = e.target.files?.[0];
             if (!file) return;
             if (file.size > 20 * 1024 * 1024) {
@@ -121,6 +127,11 @@ export function ImageField({
           }}
         />
       </label>
+      {!storage.enabled && (
+        <p className="muted">
+          {storage.message} Ejemplos: /brand.svg, /cover.svg y /dish-fish.svg.
+        </p>
+      )}
       {value && <img src={value} width={100} height={70} alt="Vista previa" />}
       <ErrorNotice message={error} />
     </div>

@@ -1,5 +1,13 @@
 # Reporte de preparación Beta Cloudflare
 
+## Actualización vigente — 28/09/2026
+
+Cloudflare autenticado. Consultas de solo lectura confirman D1 mary-beta con ID 048c965c-09d7-4d70-ae62-a82e3aa3c8f6 y 0 tablas, y Pages cocineria-mary-beta. ID configurado en env.beta. **Lista la configuración para aplicar las tres migraciones; no aplicadas en esta fase. No se ha desplegado.**
+
+R2 queda desactivado solo en beta por decisión del propietario: binding ausente intencionalmente, sin facturación. Seed usa imágenes estáticas incluidas. Subidas administrativas desactivadas con explicación y protegidas también en servidor; lectura/subida de medios R2 devuelve 409 controlado, no 500 por MEDIA inexistente. Se conservan R2 local y de producción. No hay sustitución por Base64 ni imágenes en D1. Pruebas de R2 real quedan fuera de esta beta mientras esté deshabilitado.
+
+Validación: npm run lint, npm run typecheck, npm test (52 pruebas, 7 archivos) y npm run build aprobados. Cinco pruebas nuevas verifican API sin binding MEDIA, carta/administración disponibles, bloqueo comprensible, autenticación/CSRF, aislamiento del modo beta y existencia de imágenes estáticas. No se contrataron servicios ni se modificaron datos remotos. El resto de este documento conserva el historial del 25/09; sus bloqueos de autenticación y creación de D1/Pages ya no están vigentes. Access, Turnstile y CPU remota de scrypt siguen pendientes antes de desplegar.
+
 Fecha: 25 de septiembre de 2026. **Estado: preparada y probada localmente; despliegue remoto bloqueado por configuración de cuenta pendiente.** No es una certificación de producción ni un lanzamiento público.
 
 Actualización posterior: identidad Git configurada por el propietario como Xupaya81 / 181146103+Xupaya81@users.noreply.github.com. Desarrollo y preparación beta subidos correctamente a origin/main en el commit `e96ecf57bd209ae5558c4856303c5394d3839a98`. El bloqueo de Git descrito en la revisión inicial de abajo está resuelto. El despliegue Cloudflare sigue pendiente.

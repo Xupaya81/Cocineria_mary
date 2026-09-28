@@ -1,7 +1,9 @@
 import type { Role } from "../shared/schema";
 export type Env = {
   DB: D1Database;
-  MEDIA: R2Bucket;
+  MEDIA?: R2Bucket;
+  DEPLOYMENT_STAGE?: string;
+  STORAGE_MODE?: string;
   ENVIRONMENT: string;
   PUBLIC_ORIGIN: string;
   BUSINESS_ID: string;
