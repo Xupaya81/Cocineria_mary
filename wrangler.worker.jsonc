@@ -29,7 +29,7 @@
         "STORAGE_MODE": "disabled",
         "PUBLIC_ORIGIN": "https://cocineria-mary-beta.pages.dev",
         "BUSINESS_ID": "mary",
-        "TURNSTILE_SITE_KEY": ""
+        "TURNSTILE_SITE_KEY": "0x4AAAAAAAFHKFfLeZYXbUHHEt"
       },
       "d1_databases": [{
         "binding": "DB", "database_name": "mary-beta",
