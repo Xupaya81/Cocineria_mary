@@ -11,6 +11,20 @@ export async function verifyBetaAccess(
   env: BetaEnv,
   testKey?: JWTVerifyGetKey,
 ): Promise<boolean> {
+  try {
+    await verifyBetaAccessOrThrow(request, env, testKey);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Same verification for the barrier and its temporary diagnostic; never logs claims. */
+export async function verifyBetaAccessOrThrow(
+  request: Request,
+  env: BetaEnv,
+  testKey?: JWTVerifyGetKey,
+): Promise<void> {
   const domain = env.BETA_ACCESS_TEAM_DOMAIN || "";
   const audience = env.BETA_ACCESS_AUD || "";
   if (
@@ -18,25 +32,20 @@ export async function verifyBetaAccess(
     !audience ||
     audience.startsWith("REPLACE")
   )
-    return false;
+    throw new Error("Invalid beta Access configuration");
   const assertion = request.headers.get("Cf-Access-Jwt-Assertion");
-  if (!assertion) return false;
-  try {
-    let keys = keysets.get(domain);
-    if (!keys) {
-      keys = createRemoteJWKSet(
-        new URL(`https://${domain}/cdn-cgi/access/certs`),
-      );
-      keysets.set(domain, keys);
-    }
-    await jwtVerify(assertion, testKey || keys, {
-      issuer: `https://${domain}`,
-      audience,
-      algorithms: ["RS256"],
-      requiredClaims: ["exp", "iat", "sub"],
-    });
-    return true;
-  } catch {
-    return false;
+  if (!assertion) throw new Error("Missing Access assertion header");
+  let keys = keysets.get(domain);
+  if (!keys) {
+    keys = createRemoteJWKSet(
+      new URL(`https://${domain}/cdn-cgi/access/certs`),
+    );
+    keysets.set(domain, keys);
   }
+  await jwtVerify(assertion, testKey || keys, {
+    issuer: `https://${domain}`,
+    audience,
+    algorithms: ["RS256"],
+    requiredClaims: ["exp", "iat", "sub"],
+  });
 }

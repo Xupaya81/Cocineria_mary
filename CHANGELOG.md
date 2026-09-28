@@ -1,5 +1,12 @@
 # Cambios
 
+## Diagnóstico temporal de Access — 2026-09-28
+
+- Añadido GET /__beta/access-diagnostic solo con BETA_CLOSED=true. Devuelve presencia del header, metadatos seleccionados, emisor/audiencia esperados y resultado real de JOSE. No da acceso al contenido de la aplicación.
+- Verificador criptográfico compartido entre la barrera y el diagnóstico, conservando RS256, issuer, audience y claims obligatorios. No se modificaron Access, AUD, Team Domain, secretos ni configuración del Worker.
+- Salida acotada, sin JWT, cookies, identidad, payload, cause ni stack; errores no reconocidos y campos con formatos inesperados redactados. Respuesta no-store/noindex.
+- 66 pruebas aprobadas, lint/typecheck/build y compilación de Pages Functions correctos. Sin despliegue. Retirar la ruta temporal al terminar el diagnóstico; instrucciones en docs/DIAGNOSTICO_ACCESS_TEMPORAL.md.
+
 ## Corrección de sintaxis de triggers D1 — 2026-09-28
 
 - Reemplazadas ocho sentencias SELECT CASE WHEN ... THEN RAISE ... END por SELECT RAISE ... WHERE en las migraciones 0001, 0002 y 0003. Condiciones, mensajes de error y reglas funcionales conservados.
